@@ -96,88 +96,92 @@ function SetsBundles() {
 
   return (
     <div className="container  ">
-      <div className="row ">
-        <div className="col-12  my-xl-5 my-lg-5 my-md-3 my-sm-2 my-2">
-          <h1 className="homehTag ">Sets & Bundles</h1>
-        </div>
+      {moredata?.length > 0 && (
+        <>
+          <div className="row ">
+            <div className="col-12  my-xl-5 my-lg-5 my-md-3 my-sm-2 my-2">
+              <h1 className="homehTag ">Sets & Bundles</h1>
+            </div>
 
-        <div className="row moreRow">
-          <Slider {...settings}>
-            {moredata.length > 0 &&
-              moredata?.map((item, i) => {
-                let {
-                  id,
-                  product: {
-                    img,
+            <div className="row moreRow">
+              <Slider {...settings}>
+                {moredata.length > 0 &&
+                  moredata?.map((item, i) => {
+                    let {
+                      id,
+                      product: {
+                        img,
 
-                    discount,
-                    p_name,
-                    brand,
-                    mrp,
-                  },
-                  thumbnail,
-                } = item;
-                return (
-                  <NavLink
-                    to="/product-details"
-                    className="d-flex dealCard col-md-4 col-sm-6 col-6 mb-3 "
-                  >
-                    <div className="card  onRadarCard productCard  border-0 shadow-sm">
-                      <div className="iconAbs d-flex justify-content-end align-items-center ">
-                        <span
-                          className={`heartIcon ${
-                            likedProducts[id] ? "red-heart" : ""
-                          }`}
-                          onClick={(e) => toggleLike(id, e)}
-                        >
-                          {likedProducts[id] ? (
-                            <FaHeart className="pFaHeaert" />
-                          ) : (
-                            <CiHeart />
-                          )}
-                        </span>
-                      </div>
-                      <div className="iconRel">
-                        <img
-                          src={`https://tannis.in${thumbnail}`}
-                          className="card-img-top"
-                          alt="..."
-                        />
-                      </div>
-                      <div className="card-body">
-                        <p className="card-title proTitle">{brand}</p>
-                        <h6 className="card-text proText">{p_name}</h6>
-                        <h6 className="titilHead">
-                          <MdCurrencyRupee />
-                          {mrp - discount}
-                          <span>
-                            {discount && (
-                              <del className="delProduct">
-                                <MdCurrencyRupee />
-                                {mrp}
-                              </del>
-                            )}
-                            {discount && (
-                              <span className="offdes">
-                                {" "}
-                                ({Math.floor((discount / mrp) * 100)})%
+                        discount,
+                        p_name,
+                        brand,
+                        mrp,
+                      },
+                      thumbnail,
+                    } = item;
+                    return (
+                      <NavLink
+                        to="/product-details"
+                        className="d-flex dealCard col-md-4 col-sm-6 col-6 mb-3 "
+                      >
+                        <div className="card  onRadarCard productCard  border-0 shadow-sm">
+                          <div className="iconAbs d-flex justify-content-end align-items-center ">
+                            <span
+                              className={`heartIcon ${
+                                likedProducts[id] ? "red-heart" : ""
+                              }`}
+                              onClick={(e) => toggleLike(id, e)}
+                            >
+                              {likedProducts[id] ? (
+                                <FaHeart className="pFaHeaert" />
+                              ) : (
+                                <CiHeart />
+                              )}
+                            </span>
+                          </div>
+                          <div className="iconRel">
+                            <img
+                              src={`https://tannis.in${thumbnail}`}
+                              className="card-img-top"
+                              alt="..."
+                            />
+                          </div>
+                          <div className="card-body">
+                            <p className="card-title proTitle">{brand}</p>
+                            <h6 className="card-text proText">{p_name}</h6>
+                            <h6 className="titilHead">
+                              <MdCurrencyRupee />
+                              {mrp - discount}
+                              <span>
+                                {discount && (
+                                  <del className="delProduct">
+                                    <MdCurrencyRupee />
+                                    {mrp}
+                                  </del>
+                                )}
+                                {discount && (
+                                  <span className="offdes">
+                                    {" "}
+                                    ({Math.floor((discount / mrp) * 100)})%
+                                  </span>
+                                )}
                               </span>
-                            )}
-                          </span>
-                        </h6>
+                            </h6>
 
-                        <p className="offerP4">15ml</p>
-                        <button className="proCartBtn hoverButton">
-                          Add to Bag
-                        </button>
-                      </div>
-                    </div>
-                  </NavLink>
-                );
-              })}
-          </Slider>
-        </div>
-      </div>
+                            <p className="offerP4">15ml</p>
+                            <button className="proCartBtn hoverButton">
+                              Add to Bag
+                            </button>
+                          </div>
+                        </div>
+                      </NavLink>
+                    );
+                  })}
+              </Slider>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

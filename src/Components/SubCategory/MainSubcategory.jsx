@@ -9,6 +9,7 @@ import SliderSub from "./SliderSub";
 import SellingFast from "./SellingFast";
 import SetsBundles from "./SetsBundles";
 import InFocusSub from "./InFocusSub";
+import SubTannisTube from "./SubTannisTube";
 function MainSubategory() {
   return (
     <Layout>
@@ -17,7 +18,7 @@ function MainSubategory() {
       <BestOfBeauty />
       <SetsBundles />
       <SubBrandToKnow />
-
+      <SubTannisTube />
       <InFocusSub />
       <SellingFast />
       <Statistics />

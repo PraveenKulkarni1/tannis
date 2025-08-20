@@ -36,7 +36,6 @@ function RecentView() {
   };
 
   const handleAddToCart = async (id, qty) => {
-    console.log(id, ".,.,.,.,.,.,");
     const token = localStorage.getItem("token");
     const body = { variant: id, qty: qty };
     try {
@@ -124,88 +123,102 @@ function RecentView() {
   };
 
   return (
-    <div className="container  ">
-      <div className="row ">
-        <div className="col-12  my-xl-5 my-lg-5 my-md-3 my-sm-2 my-2">
-          <h1 className="homehTag ">Recently Viewed</h1>
-        </div>
+    <>
+      <div className="container  ">
+        {moredata?.length > 0 && (
+          <>
+            <div className="row ">
+              <div className="col-12  my-xl-5 my-lg-5 my-md-3 my-sm-2 my-2">
+                <h1 className="homehTag ">Recently Viewed</h1>
+              </div>
 
-        <div className="row moreRow">
-          <Slider {...settings}>
-            {moredata.length > 0 &&
-              moredata?.map((item, i) => {
-                let {
-                  id,
-                  product: { img, variant, discount, qty, p_name, brand, mrp },
-                  thumbnail,
-                } = item;
+              <div className="row moreRow">
+                <Slider {...settings}>
+                  {moredata.length > 0 &&
+                    moredata?.map((item, i) => {
+                      let {
+                        id,
+                        product: {
+                          img,
+                          variant,
+                          discount,
+                          qty,
+                          p_name,
+                          brand,
+                          mrp,
+                        },
+                        thumbnail,
+                      } = item;
 
-                return (
-                  <NavLink
-                    to={`/product-details/${item.id}`}
-                    navigate
-                    className="d-flex dealCard col-md-4 col-sm-6 col-6 mb-3 "
-                  >
-                    <div className="card  onRadarCard productCard  border-0 shadow-sm">
-                      <div className="iconAbs d-flex justify-content-end align-items-center ">
-                        <span
-                          className={`heartIcon ${
-                            likedProducts[id] ? "red-heart" : ""
-                          }`}
-                          onClick={(e) => toggleLike(id, e)}
+                      return (
+                        <NavLink
+                          to={`/product-details/${item.id}`}
+                          navigate
+                          className="d-flex dealCard col-md-4 col-sm-6 col-6 mb-3 "
                         >
-                          {likedProducts[id] ? (
-                            <FaHeart className="pFaHeart" />
-                          ) : (
-                            <CiHeart />
-                          )}
-                        </span>
-                      </div>
-                      <div className="iconRel">
-                        <img
-                          src={`https://tannis.in${thumbnail}`}
-                          className="card-img-top"
-                          alt="..."
-                        />
-                      </div>
-                      <div className="card-body">
-                        <p className="card-title proTitle">{brand}</p>
-                        <h6 className="card-text proText">{p_name}</h6>
-                        <h6 className="titilHead">
-                          <MdCurrencyRupee />
-                          {mrp - discount}
-                          <span>
-                            {discount && (
-                              <del className="delProduct">
-                                <MdCurrencyRupee />
-                                {mrp}
-                              </del>
-                            )}
-                            {discount && (
-                              <span className="offdes">
-                                {" "}
-                                ({Math.floor((discount / mrp) * 100)})%
+                          <div className="card  onRadarCard productCard  border-0 shadow-sm">
+                            <div className="iconAbs d-flex justify-content-end align-items-center ">
+                              <span
+                                className={`heartIcon ${
+                                  likedProducts[id] ? "red-heart" : ""
+                                }`}
+                                onClick={(e) => toggleLike(id, e)}
+                              >
+                                {likedProducts[id] ? (
+                                  <FaHeart className="pFaHeart" />
+                                ) : (
+                                  <CiHeart />
+                                )}
                               </span>
-                            )}
-                          </span>
-                        </h6>
+                            </div>
+                            <div className="iconRel">
+                              <img
+                                src={`https://tannis.in${thumbnail}`}
+                                className="card-img-top"
+                                alt="..."
+                              />
+                            </div>
+                            <div className="card-body">
+                              <p className="card-title proTitle">{brand}</p>
+                              <h6 className="card-text proText">{p_name}</h6>
+                              <h6 className="titilHead">
+                                <MdCurrencyRupee />
+                                {mrp - discount}
+                                <span>
+                                  {discount && (
+                                    <del className="delProduct">
+                                      <MdCurrencyRupee />
+                                      {mrp}
+                                    </del>
+                                  )}
+                                  {discount && (
+                                    <span className="offdes">
+                                      {" "}
+                                      ({Math.floor((discount / mrp) * 100)})%
+                                    </span>
+                                  )}
+                                </span>
+                              </h6>
 
-                        <p className="offerP4">15ml</p>
-                        <button
-                          className="proCartBtn hoverButton"
-                          onClick={() => handleAddToCart(id, qty)}
-                        >
-                          Add to Bag
-                        </button>
-                      </div>
-                    </div>
-                  </NavLink>
-                );
-              })}
-          </Slider>
-        </div>
+                              <p className="offerP4">15ml</p>
+                              <button
+                                className="proCartBtn hoverButton"
+                                onClick={() => handleAddToCart(id, qty)}
+                              >
+                                Add to Bag
+                              </button>
+                            </div>
+                          </div>
+                        </NavLink>
+                      );
+                    })}
+                </Slider>
+              </div>
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 

@@ -12,6 +12,10 @@
   border: none;
   background: none;
 }
+.pdtTextm {
+  color: rgb(184, 178, 178);
+  font-size: 14px;
+}
 .fltMain {
   border: 1px solid rgb(184, 178, 178);
   /* padding: 10px 20px; */
@@ -45,6 +49,11 @@
   accent-color: rgb(117, 103, 103);
 }
 
+@media (max-width: 768px) {
+  .filterPro {
+    display: none !important;
+  }
+}
 @media (max-width: 486px) {
   .filDropText {
     font-size: 12px;

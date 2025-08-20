@@ -225,7 +225,11 @@
 .heartIcon svg {
   font-size: 20px; /* Keep both icons same size */
 }
-
+.added-btn {
+  background-color: #666a67 !important;
+  color: white !important;
+  cursor: not-allowed;
+}
 .pFaHeaert {
   color: #f00000;
 }

@@ -108,35 +108,41 @@ const TopSubCate = () => {
   };
 
   return (
-    <div className="container mt-xxl-5 mt-lg-5 mt-md-3 mt-sm-2 mt-4 ">
-      <div className="row">
-        <h3 className="homehTag  mt-5">Top Categories</h3>
-        <div className="  my-xl-3 my-xxl-3 my-lg-3 my-md-3 my-sm-2 my-2 ">
-          <Slider {...settings}>
-            {category?.map((item, i) => {
-              return (
-                <div div className="">
-                  <NavLink
-                    to={`/${item.m_name}/products`}
-                    className=" col-2 card topCateCard border-0 d-flex justify-content-between "
-                  >
-                    <img
-                      src={`https://tannis.in${item.image}`}
-                      className="card-img-top hcateImg "
-                      alt={item.c_name}
-                      onClick={() => handleCateClick(item.id)}
-                    />
-                    <div className="card-body">
-                      <p className="cardTextp">{item.m_name}</p>
-                    </div>
-                  </NavLink>
-                </div>
-              );
-            })}
-          </Slider>
-        </div>
-      </div>
-    </div>
+    <>
+      {category?.length > 0 && (
+        <>
+          <div className="container mt-xxl-5 mt-lg-5 mt-md-3 mt-sm-2 mt-4 ">
+            <div className="row">
+              <h3 className="homehTag  mt-5">Top Categories</h3>
+              <div className="  my-xl-3 my-xxl-3 my-lg-3 my-md-3 my-sm-2 my-2 ">
+                <Slider {...settings}>
+                  {category?.map((item, i) => {
+                    return (
+                      <div div className="">
+                        <NavLink
+                          to={`/${item.m_name}/products`}
+                          className=" col-2 card topCateCard border-0 d-flex justify-content-between "
+                        >
+                          <img
+                            src={`https://tannis.in${item.image}`}
+                            className="card-img-top hcateImg "
+                            alt={item.c_name}
+                            onClick={() => handleCateClick(item.id)}
+                          />
+                          <div className="card-body">
+                            <p className="cardTextp">{item.m_name}</p>
+                          </div>
+                        </NavLink>
+                      </div>
+                    );
+                  })}
+                </Slider>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

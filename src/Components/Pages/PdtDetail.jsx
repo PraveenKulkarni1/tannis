@@ -1,4 +1,4 @@
-// import React, { useState, useRef } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 // import "./pdtDetail.css";
 // import { IoShareSocialOutline } from "react-icons/io5";
 // import { FaStar } from "react-icons/fa6";
@@ -38,6 +38,8 @@
 
 // import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 // import MoreToLike from "./../SliderPage/MoreToLike";
+// import axios from "axios";
+
 // const PdtDetail = ({ product }) => {
 //   //  Rate and Review modal modal
 //   const [showReview, setShowReview] = useState(false);
@@ -70,6 +72,10 @@
 //       </components.DropdownIndicator>
 //     );
 //   };
+
+//   const productItem = product?.data;
+//   // console.log(productItem, "*********");
+
 //   const [isHovered, setIsHovered] = useState(false);
 //   const totalStars = 5; // Total number of stars
 
@@ -82,6 +88,14 @@
 //   const [selectedOption, setSelectedOption] = useState(null);
 //   const [sizeSelect, setSizeSelect] = useState(0);
 
+//   const [address, setAddress] = useState([]);
+//   const [selectedAddress, setSelectedAddress] = useState(null);
+//   const [pincode, setPincode] = useState("560036");
+//   const [city, setCity] = useState("");
+//   const [state, setState] = useState("");
+//   const [location, setLocation] = useState(null);
+//   const [locAddress, setLocAddress] = useState("");
+//   const [error, setError] = useState("");
 //   const shadeOptions = [
 //     {
 //       value: "21C Cool lvory",
@@ -159,13 +173,115 @@
 //     );
 //   };
 
+//   const getAllAddress = async () => {
+//     const token = localStorage.getItem("token");
+//     try {
+//       const res = await axios.get(
+//         "https://tannis.in/api/get-shipping-address/",
+//         {
+//           headers: {
+//             Authorization: `Token ${token}`,
+//           },
+//         }
+//       );
+//       setAddress(res?.data);
+
+//       if (res?.data?.length > 0 && !selectedAddress) {
+//         setSelectedAddress(res?.data[0]);
+//       }
+
+//       // navigate("/order-details");
+
+//       // const def = res.data.find((a) => a.is_default);
+//       // if (def) setDefaultAddressId(def.id);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     getAllAddress();
+//   }, []);
+//   const handleCheck = async (e) => {
+//     e.preventDefault();
+//     if (pincode.length !== 6) {
+//       alert("Please enter a valid 6-digit pincode");
+//       return;
+//     }
+
+//     try {
+//       const res = await axios.get(
+//         `https://api.postalpincode.in/pincode/${pincode}`
+//       );
+//       const postOffices = res.data[0].PostOffice;
+
+//       if (postOffices && postOffices.length > 0) {
+//         setCity(postOffices[0].District);
+//         setState(postOffices[0].State);
+//       } else {
+//         setCity("Not found");
+//         setState("");
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       setCity("Error fetching city");
+//       setState("");
+//     }
+//   };
+
+//   const getAddressFromCoords = async (lat, lng) => {
+//     try {
+//       const res = await fetch(
+//         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+//       );
+//       const data = await res.json();
+
+//       if (data && data.address) {
+//         const addr = data.address;
+//         // Construct a readable address
+//         return `${addr.city || addr.town || addr.village || ""}, ${
+//           addr.state || ""
+//         }, ${addr.postcode || ""}`;
+//         // ${addr.postcode || ""}, ${addr.country || ""}`;
+//       }
+//       return "Address not found";
+//     } catch (err) {
+//       console.error(err);
+//       return "Failed to fetch address";
+//     }
+//   };
+
+//   // Get current location
+//   const getLocation = () => {
+//     if (!navigator.geolocation) {
+//       setError("Geolocation is not supported by your browser");
+//     } else {
+//       navigator.geolocation.getCurrentPosition(
+//         async (position) => {
+//           const lat = position.coords.latitude;
+//           const lng = position.coords.longitude;
+
+//           setLocation({ lat, lng });
+//           setError("");
+
+//           // Convert lat/lng -> Address
+//           const addr = await getAddressFromCoords(lat, lng);
+//           setLocAddress(addr);
+//         },
+//         () => {
+//           setError("Location access denied. Please allow location access.");
+//         }
+//       );
+//     }
+//   };
+
 //   return (
 //     <>
 //       <div className=" my-5">
-//         <p className="pdtSpan">Inde Wild</p>
+//         <p className="pdtSpan">{productItem?.product?.brand}</p>
 //         <div className="d-flex justify-content-between">
 //           <h6 className="pdtMainTxt">
-//             Inde Wild Dewy Lip Treatment <br /> (15ml)
+//             {productItem?.product?.p_name.substring(0, 30)} <br />
 //           </h6>
 //           <IoShareSocialOutline className="IoShareIcon" />
 //         </div>
@@ -190,13 +306,16 @@
 //         <div className="">
 //           <h6 className="pdtHead">
 //             <MdCurrencyRupee />
-//             719
+//             {productItem?.product?.selling_price}
 //             <span>
 //               <del className="secpdtHead">
 //                 <MdCurrencyRupee />
-//                 799{" "}
+//                 {productItem?.product?.selling_price}
 //               </del>
-//               <span className="pdtOffer"> (10% Off)</span>
+//               <span className="pdtOffer">
+//                 {" "}
+//                 ({productItem?.product?.discount}% Off)
+//               </span>
 //             </span>
 //           </h6>
 //         </div>
@@ -218,6 +337,7 @@
 //             <MdKeyboardArrowRight size={15} className="ms-2" />
 //           </button>
 //         </div>
+
 //         <div className="my-2">
 //           <p className="pdtText my-auto"> Select Shades</p>
 //           <Select
@@ -322,13 +442,14 @@
 //               </Link>
 //             </div>
 //           </div>
-//           <div className="d-flex pdtFbg">
+//           <div className="d-flex pdtFbg justify-content-between">
 //             <p className="pdtFree">
 //               {" "}
 //               <RiTruckLine className="pdtFree  me-2" size={18} />
 //               Free develory
 //             </p>
-//             <p className="pdtGet"> - Get it by Sun, Jan 26</p>
+//             {/* {console.log(productItem[0]?.delivery_date, "****")} */}
+//             <p className="pdtGet"> {productItem?.delivery_date}</p>
 //           </div>
 //         </div>
 //         <div className="mb-3">
@@ -359,7 +480,7 @@
 //         </div>
 //         {/* Change Location modal */}
 //         <>
-//           <Modal show={showChangeLoc} onHide={changeLocClose}>
+//           <Modal show={showChangeLoc} onHide={changeLocClose} scrollable>
 //             <Modal.Header closeButton>
 //               <Modal.Title>Choose your location</Modal.Title>
 //             </Modal.Header>
@@ -378,10 +499,23 @@
 //                         delivery experience.
 //                       </p>
 //                     </div>
+
 //                     <div className="col-2">
 //                       {" "}
-//                       <IoIosArrowForward className="locIcon1" size={20} />
+//                       <IoIosArrowForward
+//                         className="locIcon1"
+//                         size={20}
+//                         onClick={getLocation}
+//                       />
 //                     </div>
+//                   </div>
+//                   <div className="col-12">
+//                     {locAddress && (
+//                       <p className="mt-2 text-green-600">
+//                         <strong>Detected Address:</strong> {locAddress}
+//                       </p>
+//                     )}
+//                     {error && <p className="mt-2 text-red-600">{error}</p>}
 //                   </div>
 //                   <div className="col-12 my-xl-4 my-lg-4 my-md-3 my-sm-2 my-2">
 //                     <h4 className="text-center pdtSpan ">---- OR ----</h4>
@@ -395,15 +529,28 @@
 //                       <div className="d-flex gap-3 ">
 //                         <Form.Control
 //                           type="text"
-//                           placeholder=""
-//                           value="560036"
+//                           placeholder="eg 560036"
+//                           value={pincode}
+//                           onChange={(e) => setPincode(e.target.value)}
 //                           autoFocus
 //                         />
-//                         <button className="revSubmit"> Check</button>
+//                         <button
+//                           type="button"
+//                           className="revSubmit"
+//                           onClick={handleCheck}
+//                         >
+//                           Check
+//                         </button>
 //                       </div>
 //                       <p className="pdtSpan my-2">
 //                         Delivery to:
-//                         <span className="pdtCity ">Bengalore</span>
+//                         <span className="pdtCity ">
+//                           {city && (
+//                             <span className="pdtCity ms-1">
+//                               {city.toLocaleUpperCase()} <br />
+//                             </span>
+//                           )}
+//                         </span>
 //                       </p>
 //                     </Form.Group>
 //                   </Form>
@@ -412,13 +559,17 @@
 //                   </div>
 //                   <div className="col-12">
 //                     <h3 className="pdtSaveAdd">
-//                       Select from saved addresses (1)
+//                       Select from saved addresses ({address?.length})
 //                     </h3>
 
-//                     {addresses.map((address) => (
+//                     {address.map((address) => (
 //                       <div
 //                         key={address.id}
-//                         className="card p-3 shadow-sm mb-2 gap-2 w-100"
+//                         className={`card p-3 shadow-sm mb-2 gap-2 w-100 ${
+//                           selectedAddress?.id === address.id
+//                             ? "border border-dark"
+//                             : ""
+//                         }`}
 //                       >
 //                         <div className="d-flex gap-2 flex-start align-items-start">
 //                           <input
@@ -430,23 +581,26 @@
 //                           <div className="col-10">
 //                             <h5 className="mb-1 pdtText">
 //                               {address.name}{" "}
-//                               <span className="copBorder">{address.type}</span>
+//                               <span className="copBorder ms-2">
+//                                 {address.type_of_address}
+//                               </span>
 //                             </h5>
 
 //                             <p className="pdtText m-0 p-0">
-//                               {address.houseNo},
-//                               <span className="">
-//                                 {address.buildingName},{" "}
-//                                 <span>{address.city}-</span>
-//                                 <span>
-//                                   {address.state}
-//                                   <GoDash size={18} className="ms-1" />
+//                               {address.address1},
+//                               <span className="pdtText">
+//                                 {address.address2},{" "}
+//                                 <span className="pdtText">
+//                                   {address.city}- {address.state}-{" "}
+//                                   {address.pin_code}
+//                                   {/* <GoDash size={18} className="ms-1" /> */}
+//                                   <p className="pdtText my-1"></p>
 //                                 </span>
 //                               </span>{" "}
 //                             </p>
-//                             <p className="pdtText my-1">{address.pincode}</p>
-//                             <p className="mb-0 pdtText">
-//                               Mobile: {address.contact}
+
+//                             <p className="mb-0 pdtTextm">
+//                               Mobile: {address.phone}
 //                             </p>
 //                           </div>
 //                         </div>
@@ -458,8 +612,19 @@
 //             </Modal.Body>
 
 //             <Modal.Footer className="">
-//               <Button className="revSubmit " onClick={changeLocClose}>
-//                 Conform
+//               <Button
+//                 className="revSubmit"
+//                 onClick={() => {
+//                   if (selectedAddress) {
+//                     localStorage.setItem(
+//                       "selectedAddress",
+//                       JSON.stringify(selectedAddress)
+//                     );
+//                   }
+//                   changeLocClose();
+//                 }}
+//               >
+//                 Confirm
 //               </Button>
 //             </Modal.Footer>
 //           </Modal>
@@ -542,7 +707,7 @@
 
 // export default PdtDetail;
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./pdtDetail.css";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa6";
@@ -571,7 +736,7 @@ import shade8 from "../../assets/shade8.avif";
 import shade9 from "../../assets/shade9.avif";
 import shade10 from "../../assets/shade10.avif";
 import shade11 from "../../assets/shade11.avif";
-
+import toast from "react-hot-toast";
 import { GoDash } from "react-icons/go";
 // modal
 import Button from "react-bootstrap/Button";
@@ -582,6 +747,8 @@ import SpecifFea from "./SpecifFea";
 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import MoreToLike from "./../SliderPage/MoreToLike";
+import axios from "axios";
+
 const PdtDetail = ({ product }) => {
   //  Rate and Review modal modal
   const [showReview, setShowReview] = useState(false);
@@ -591,22 +758,6 @@ const PdtDetail = ({ product }) => {
   const [hoveredStar, setHoveredStar] = useState(-1);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      houseNo: "#32",
-      buildingName: "Sai",
-      pincode: "400093",
-
-      city: "Mumbai",
-      state: "Maharastra",
-      name: "Praveen Kulkarni",
-      type: "Home",
-      email: "",
-      country: "India",
-      contact: "7406506051",
-    },
-  ]);
   const DropdownIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
@@ -616,7 +767,7 @@ const PdtDetail = ({ product }) => {
   };
 
   const productItem = product?.data;
-  // console.log(productItem, "*********");
+  console.log(productItem.id, "*********");
 
   const [isHovered, setIsHovered] = useState(false);
   const totalStars = 5; // Total number of stars
@@ -630,6 +781,14 @@ const PdtDetail = ({ product }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [sizeSelect, setSizeSelect] = useState(0);
 
+  const [address, setAddress] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [pincode, setPincode] = useState("560036");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [location, setLocation] = useState(null);
+  const [locAddress, setLocAddress] = useState("");
+  const [error, setError] = useState("");
   const shadeOptions = [
     {
       value: "21C Cool lvory",
@@ -705,6 +864,130 @@ const PdtDetail = ({ product }) => {
     setShadeSelect(
       shadeOptions.findIndex((shade) => shade.value === option.value)
     );
+  };
+
+  const getAllAddress = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(
+        "https://tannis.in/api/get-shipping-address/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setAddress(res?.data);
+
+      if (res?.data?.length > 0 && !selectedAddress) {
+        setSelectedAddress(res?.data[0]);
+      }
+
+      // navigate("/order-details");
+
+      // const def = res.data.find((a) => a.is_default);
+      // if (def) setDefaultAddressId(def.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllAddress();
+  }, []);
+  const handleCheck = async (e) => {
+    e.preventDefault();
+    if (pincode.length !== 6) {
+      alert("Please enter a valid 6-digit pincode");
+      return;
+    }
+
+    try {
+      const res = await axios.get(
+        `https://api.postalpincode.in/pincode/${pincode}`
+      );
+      const postOffices = res.data[0].PostOffice;
+
+      if (postOffices && postOffices.length > 0) {
+        setCity(postOffices[0].District);
+        setState(postOffices[0].State);
+      } else {
+        setCity("Not found");
+        setState("");
+      }
+    } catch (error) {
+      console.error(error);
+      setCity("Error fetching city");
+      setState("");
+    }
+  };
+
+  const getAddressFromCoords = async (lat, lng) => {
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+      );
+      const data = await res.json();
+
+      if (data && data.address) {
+        const addr = data.address;
+        // Construct a readable address
+        return `${addr.city || addr.town || addr.village || ""}, ${
+          addr.state || ""
+        }, ${addr.postcode || ""}`;
+        // ${addr.postcode || ""}, ${addr.country || ""}`;
+      }
+      return "Address not found";
+    } catch (err) {
+      console.error(err);
+      return "Failed to fetch address";
+    }
+  };
+
+  // Get current location
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by your browser");
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          setLocation({ lat, lng });
+          setError("");
+
+          // Convert lat/lng -> Address
+          const addr = await getAddressFromCoords(lat, lng);
+          setLocAddress(addr);
+        },
+        () => {
+          setError("Location access denied. Please allow location access.");
+        }
+      );
+    }
+  };
+
+  const handleAddToCart = async (id, qty) => {
+    const token = localStorage.getItem("token");
+    const body = { variant: id, qty: qty };
+    try {
+      const res = await axios.post(
+        "https://tannis.in/api/add-to-cart/",
+        body,
+
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      toast.success("Item Added Successfully");
+      console.log(res, "************");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
   return (
@@ -838,7 +1121,16 @@ const PdtDetail = ({ product }) => {
           ))}
         </div>
         <div className="d-flex justify-content-between">
-          <button className="pdtBtn ">Add to Bag</button>
+          <button
+            className="pdtBtn "
+            onClick={(e) => {
+              e.preventDefault(); // stop NavLink redirect
+              e.stopPropagation(); // stop event bubbling
+              handleAddToCart(productItem.id, productItem.qty);
+            }}
+          >
+            Add to Bag
+          </button>
           <button className="pdtSaveBtn">Save to Wishlist</button>
         </div>
         <div className="d-flex justify-content-between my-3">
@@ -862,10 +1154,19 @@ const PdtDetail = ({ product }) => {
                 <p className=""> Delivery Options</p>
               </Link>
 
-              <Link to="/" className="pdtLocIcon d-flex">
+              <div className="pdtLocIcon d-flex" onClick={changeLocShow}>
                 <CiLocationOn className="me-2" />
-                <span className="pdtText"> 560036</span>
-              </Link>
+                <span className="pdtText">
+                  {pincode.length == 6 && (
+                    <>
+                      <span className="pdtCity ms-1">
+                        {pincode}
+                        <br />
+                      </span>
+                    </>
+                  )}
+                </span>
+              </div>
             </div>
             <div className="">
               <Link className=" pdtText  d-flex" onClick={changeLocShow}>
@@ -912,7 +1213,7 @@ const PdtDetail = ({ product }) => {
         </div>
         {/* Change Location modal */}
         <>
-          <Modal show={showChangeLoc} onHide={changeLocClose}>
+          <Modal show={showChangeLoc} onHide={changeLocClose} scrollable>
             <Modal.Header closeButton>
               <Modal.Title>Choose your location</Modal.Title>
             </Modal.Header>
@@ -931,10 +1232,23 @@ const PdtDetail = ({ product }) => {
                         delivery experience.
                       </p>
                     </div>
+
                     <div className="col-2">
                       {" "}
-                      <IoIosArrowForward className="locIcon1" size={20} />
+                      <IoIosArrowForward
+                        className="locIcon1"
+                        size={20}
+                        onClick={getLocation}
+                      />
                     </div>
+                  </div>
+                  <div className="col-12">
+                    {locAddress && (
+                      <p className="mt-2 text-green-600">
+                        <strong>Detected Address:</strong> {locAddress}
+                      </p>
+                    )}
+                    {error && <p className="mt-2 text-red-600">{error}</p>}
                   </div>
                   <div className="col-12 my-xl-4 my-lg-4 my-md-3 my-sm-2 my-2">
                     <h4 className="text-center pdtSpan ">---- OR ----</h4>
@@ -948,15 +1262,28 @@ const PdtDetail = ({ product }) => {
                       <div className="d-flex gap-3 ">
                         <Form.Control
                           type="text"
-                          placeholder=""
-                          value="560036"
+                          placeholder="eg 560036"
+                          value={pincode}
+                          onChange={(e) => setPincode(e.target.value)}
                           autoFocus
                         />
-                        <button className="revSubmit"> Check</button>
+                        <button
+                          type="button"
+                          className="revSubmit"
+                          onClick={handleCheck}
+                        >
+                          Check
+                        </button>
                       </div>
                       <p className="pdtSpan my-2">
                         Delivery to:
-                        <span className="pdtCity ">Bengalore</span>
+                        <span className="pdtCity ">
+                          {city && (
+                            <span className="pdtCity ms-1">
+                              {city.toLocaleUpperCase()} <br />
+                            </span>
+                          )}
+                        </span>
                       </p>
                     </Form.Group>
                   </Form>
@@ -965,13 +1292,17 @@ const PdtDetail = ({ product }) => {
                   </div>
                   <div className="col-12">
                     <h3 className="pdtSaveAdd">
-                      Select from saved addresses (1)
+                      Select from saved addresses ({address?.length})
                     </h3>
 
-                    {addresses.map((address) => (
+                    {address.map((address) => (
                       <div
                         key={address.id}
-                        className="card p-3 shadow-sm mb-2 gap-2 w-100"
+                        className={`card p-3 shadow-sm mb-2 gap-2 w-100 ${
+                          selectedAddress?.id === address.id
+                            ? "border border-dark"
+                            : ""
+                        }`}
                       >
                         <div className="d-flex gap-2 flex-start align-items-start">
                           <input
@@ -983,23 +1314,26 @@ const PdtDetail = ({ product }) => {
                           <div className="col-10">
                             <h5 className="mb-1 pdtText">
                               {address.name}{" "}
-                              <span className="copBorder">{address.type}</span>
+                              <span className="copBorder ms-2">
+                                {address.type_of_address}
+                              </span>
                             </h5>
 
                             <p className="pdtText m-0 p-0">
-                              {address.houseNo},
-                              <span className="">
-                                {address.buildingName},{" "}
-                                <span>{address.city}-</span>
-                                <span>
-                                  {address.state}
-                                  <GoDash size={18} className="ms-1" />
+                              {address.address1},
+                              <span className="pdtText">
+                                {address.address2},{" "}
+                                <span className="pdtText">
+                                  {address.city}- {address.state}-{" "}
+                                  {address.pin_code}
+                                  {/* <GoDash size={18} className="ms-1" /> */}
+                                  <p className="pdtText my-1"></p>
                                 </span>
                               </span>{" "}
                             </p>
-                            <p className="pdtText my-1">{address.pincode}</p>
-                            <p className="mb-0 pdtText">
-                              Mobile: {address.contact}
+
+                            <p className="mb-0 pdtTextm">
+                              Mobile: {address.phone}
                             </p>
                           </div>
                         </div>
@@ -1011,8 +1345,19 @@ const PdtDetail = ({ product }) => {
             </Modal.Body>
 
             <Modal.Footer className="">
-              <Button className="revSubmit " onClick={changeLocClose}>
-                Conform
+              <Button
+                className="revSubmit"
+                onClick={() => {
+                  if (selectedAddress) {
+                    localStorage.setItem(
+                      "selectedAddress",
+                      JSON.stringify(selectedAddress)
+                    );
+                  }
+                  changeLocClose();
+                }}
+              >
+                Confirm
               </Button>
             </Modal.Footer>
           </Modal>

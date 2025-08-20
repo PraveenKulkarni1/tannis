@@ -140,7 +140,84 @@ function App() {
 }
 
 export default App;
-// "scripts": {
-//   "start": "node --max-old-space-size=4096 ./node_modules/react-scripts/scripts/start.js",
-//   "build": "node --max-old-space-size=4096 ./node_modules/react-scripts/scripts/build.js"
-// }
+// // // "scripts": {
+// // //   "start": "node --max-old-space-size=4096 ./node_modules/react-scripts/scripts/start.js",
+// // //   "build": "node --max-old-space-size=4096 ./node_modules/react-scripts/scripts/build.js"
+// // // }
+
+// import React, { useState } from "react";
+
+// const App = () => {
+//   const [location, setLocation] = useState(null);
+//   const [locAddress, setLocAddress] = useState("");
+//   const [error, setError] = useState("");
+
+//   // Reverse geocode (Lat/Lng -> Address)
+//   const getAddressFromCoords = async (lat, lng) => {
+//     try {
+//       const res = await fetch(
+//         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+//       );
+//       const data = await res.json();
+
+//       if (data && data.address) {
+//         const addr = data.address;
+//         // Construct a readable address
+//         return `${addr.city || addr.town || addr.village || ""}, ${
+//           addr.state || ""
+//         }, ${addr.postcode || ""}, ${addr.country || ""}`;
+//       }
+//       return "Address not found";
+//     } catch (err) {
+//       console.error(err);
+//       return "Failed to fetch address";
+//     }
+//   };
+
+//   // Get current location
+//   const getLocation = () => {
+//     if (!navigator.geolocation) {
+//       setError("Geolocation is not supported by your browser");
+//     } else {
+//       navigator.geolocation.getCurrentPosition(
+//         async (position) => {
+//           const lat = position.coords.latitude;
+//           const lng = position.coords.longitude;
+
+//           setLocation({ lat, lng });
+//           setError("");
+
+//           // Convert lat/lng -> Address
+//           const addr = await getAddressFromCoords(lat, lng);
+//           setLocAddress(addr);
+//         },
+//         () => {
+//           setError("Location access denied. Please allow location access.");
+//         }
+//       );
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 max-w-md mx-auto bg-white rounded-2xl shadow-md">
+//       <h2 className="text-xl font-bold mb-4">📍 Choose your location</h2>
+
+//       <button
+//         onClick={getLocation}
+//         className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+//       >
+//         Use My Current Location
+//       </button>
+
+//       {locAddress && (
+//         <p className="mt-2 text-green-600">
+//           <strong>Detected Address:</strong> {locAddress}
+//         </p>
+//       )}
+
+//       {error && <p className="mt-2 text-red-600">{error}</p>}
+//     </div>
+//   );
+// };
+
+// export default App;
