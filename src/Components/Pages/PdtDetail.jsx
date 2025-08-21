@@ -767,7 +767,7 @@ const PdtDetail = ({ product }) => {
   };
 
   const productItem = product?.data;
-  console.log(productItem.id, "*********");
+  console.log(productItem?.id, "*********");
 
   const [isHovered, setIsHovered] = useState(false);
   const totalStars = 5; // Total number of stars
@@ -969,6 +969,7 @@ const PdtDetail = ({ product }) => {
   };
 
   const handleAddToCart = async (id, qty) => {
+    console.log(id, qty, "id, qty");
     const token = localStorage.getItem("token");
     const body = { variant: id, qty: qty };
     try {
@@ -1126,7 +1127,7 @@ const PdtDetail = ({ product }) => {
             onClick={(e) => {
               e.preventDefault(); // stop NavLink redirect
               e.stopPropagation(); // stop event bubbling
-              handleAddToCart(productItem.id, productItem.qty);
+              handleAddToCart(productItem?.id, productItem?.qty);
             }}
           >
             Add to Bag
