@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/tannis/static/css/main.1bcb8f2c.css",
-    "main.js": "/tannis/static/js/main.42f7d99f.js",
+    "main.js": "/tannis/static/js/main.9cf3d4fc.js",
     "reactPlayerYouTube.js": "/tannis/static/js/reactPlayerYouTube.827d572d.chunk.js",
     "reactPlayerSoundCloud.js": "/tannis/static/js/reactPlayerSoundCloud.6bb98538.chunk.js",
     "reactPlayerVimeo.js": "/tannis/static/js/reactPlayerVimeo.8d4d9e37.chunk.js",
@@ -67,7 +67,7 @@
     "static/media/shade2.avif": "/tannis/static/media/shade2.4a86ed341fe6943c5734.avif",
     "static/media/shade5.avif": "/tannis/static/media/shade5.9bd1918094a3b617029d.avif",
     "main.1bcb8f2c.css.map": "/tannis/static/css/main.1bcb8f2c.css.map",
-    "main.42f7d99f.js.map": "/tannis/static/js/main.42f7d99f.js.map",
+    "main.9cf3d4fc.js.map": "/tannis/static/js/main.9cf3d4fc.js.map",
     "reactPlayerYouTube.827d572d.chunk.js.map": "/tannis/static/js/reactPlayerYouTube.827d572d.chunk.js.map",
     "reactPlayerSoundCloud.6bb98538.chunk.js.map": "/tannis/static/js/reactPlayerSoundCloud.6bb98538.chunk.js.map",
     "reactPlayerVimeo.8d4d9e37.chunk.js.map": "/tannis/static/js/reactPlayerVimeo.8d4d9e37.chunk.js.map",
@@ -85,6 +85,6 @@
   },
   "entrypoints": [
     "static/css/main.1bcb8f2c.css",
-    "static/js/main.42f7d99f.js"
+    "static/js/main.9cf3d4fc.js"
   ]
 }
